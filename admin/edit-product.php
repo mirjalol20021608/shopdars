@@ -76,12 +76,7 @@ $cat_list = $cat_list->fetch_all(MYSQLI_ASSOC);
                 <input name="instock" value="<?= $get_pro['instock'] ?>" type="text" class="form-control" id="instock" placeholder="Mahsulot miqdori">
             </div>
 
-            <div class="mb-3">
-                <label for="description">Mahsulot haqida</label>
-
-                <textarea id="" name="description" class="form-control" rows="4" cols="50"></textarea>
-            </div>
-
+           
             <div class="mb-3">
                 <input type="submit" class="btn btn-primary" value="Saqlash">
             </div>

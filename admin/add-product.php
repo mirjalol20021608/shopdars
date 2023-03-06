@@ -9,24 +9,58 @@ if(!isset($_SESSION['user']['username'])){
 <?php require('sections/menu.php'); ?>
 
 <?php include('../dbmysql.php'); ?>
-
-
 <?php
-  if (isset($_POST['name']) &&  isset($_POST['category_id'])){
-    $name = $_POST['name'];
-    if ($_POST['category_id'] != ''){
-      $category_id  = $_POST['category_id'];
-        $insert_sql = "INSERT INTO product (name,category_id) VALUES ('$name',$category_id)";
+  if(isset($_POST['name']) && isset($_POST['price'])
+  && isset($_POST['category_id']) && isset($_POST['instock'])
+  && isset($_POST['description'])) {
+      $name = $_POST['name'];
+      $price = $_POST['price'];
+      $category_id = $_POST['category_id'];
+      $instock = $_POST['instock'];
+      $description = $_POST['description'];
 
-    }else{
-            $insert_sql = "INSERT INTO product (name) VALUES ('$name')";
 
-    }
+      if (isset($_FILES['image'])) {
+          $folder = "../uploads";
+          $target_file = $folder . basename($_FILES["image"]["name"]);
+          $imageFiletype = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 
-if($conn->query($insert_sql)) {
-    header("location: product.php");
-}
-}
+          if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)){
+            $image_name = 'uploads/' . basename($_FILES["image"]["name"]);
+          }
+          $insert_sql = "INSERT INTO product (name,price,category_id, instock, description,image)
+  values ( '$name','$price', '$category_id', '$instock', '$description','$image_name')";
+
+   }else{
+
+          $insert_sql = "INSERT INTO product (name,price,category_id, instock, description)
+  values ( '$name','$price', '$category_id', '$instock', '$description')";
+
+      }
+
+
+
+   if ($conn->query($insert_sql)) {
+       header("location: product.php");
+   }
+
+ }
+
+//  if (isset($_POST['name']) &&  isset($_POST['category_id'])){
+//    $name = $_POST['name'];
+//    if ($_POST['category_id'] != ''){
+//      $category_id  = $_POST['category_id'];
+//        $insert_sql = "INSERT INTO product (name,category_id) VALUES ('$name',$category_id)";
+//
+//    }else{
+//            $insert_sql = "INSERT INTO product (name) VALUES ('$name')";
+//
+//    }
+//
+//if($conn->query($insert_sql)) {
+//    header("location: product.php");
+//}
+//}
 $cat_list = "SELECT * FROM category ";
 $cat_list = $conn->query($cat_list);
 $cat_list = $cat_list->fetch_all(MYSQLI_ASSOC);
@@ -62,9 +96,11 @@ $cat_list = $cat_list->fetch_all(MYSQLI_ASSOC);
             <input name="instock" type="text" class="form-control" id="instock" placeholder="Miqdori">
         </div>
         <div class="mb-3">
-            <label for="description" class="form-label">Umumiy ma'lumot</label>
-            <textarea name="description" id="description" class="form-control" placeholder="Umumiy ma'lumotlar"></textarea>
+            <label for="description" class="form-label">Maxsulot xaqida</label>
+            <textarea name="description" id="description" class="form-control" cols="30" rows="10"></textarea>
         </div>
+
+
         <div class="mb-3">
             <input type="submit" class="btn btn-primary" value="Saqlash">
         </div>
