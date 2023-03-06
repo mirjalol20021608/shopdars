@@ -46,21 +46,6 @@ if(!isset($_SESSION['user']['username'])){
 
  }
 
-//  if (isset($_POST['name']) &&  isset($_POST['category_id'])){
-//    $name = $_POST['name'];
-//    if ($_POST['category_id'] != ''){
-//      $category_id  = $_POST['category_id'];
-//        $insert_sql = "INSERT INTO product (name,category_id) VALUES ('$name',$category_id)";
-//
-//    }else{
-//            $insert_sql = "INSERT INTO product (name) VALUES ('$name')";
-//
-//    }
-//
-//if($conn->query($insert_sql)) {
-//    header("location: product.php");
-//}
-//}
 $cat_list = "SELECT * FROM category ";
 $cat_list = $conn->query($cat_list);
 $cat_list = $cat_list->fetch_all(MYSQLI_ASSOC);
